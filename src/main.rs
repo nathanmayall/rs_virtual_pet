@@ -6,9 +6,9 @@ use std::io::{stdin, stdout, Write};
 use std::process::exit;
 use std::{thread, time};
 
+use colored::*;
 use figlet_rs::FIGfont;
 use terminal_size::{terminal_size, Height, Width};
-use colored::*;
 
 fn main() {
     clear_screen();
@@ -113,21 +113,24 @@ pub fn title_sequence(title: &str, red: Option<bool>) {
     let size = terminal_size();
 
     match size {
-        Some((Width(w), Height(h))) => {
-            clear_screen();
-
+        Some((Width(_w), Height(_h))) => {
+            let mut acc = String::new();
             let epic_font = FIGfont::from_file("resources/epic.flf").unwrap();
-            let figure = epic_font.convert(title);
 
-            let text = format!("{}", figure.unwrap());
+            title.chars().into_iter().for_each(|c| {
+                clear_screen();
+                acc.push(c);
 
-            match red {
-                Some(_val) => {
-                    println!("{}", text.red())
-                },
-                None => println!("{}", text.blue().on_bright_black())
-            }
-            
+                let figure = epic_font.convert(acc.as_str());
+                let mut text = format!("{}", figure.unwrap());
+
+                match red {
+                    Some(_val) => text = format!("{}", text.red().on_black().bold()),
+                    None => text = format!("{}", text.blue().bold()),
+                }
+                println!("{}", text);
+                thread::sleep(time::Duration::from_millis(100));
+            });
         }
         None => panic!("Unable to get terminal size"),
     }
