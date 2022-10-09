@@ -1,9 +1,10 @@
+#[derive(Debug)]
 pub struct Pet {
-    name: String,
-    age: i8,
-    hunger: i8,
-    fitness: i8,
-    children: Vec<Pet>,
+    pub name: String,
+    pub age: i8,
+    pub hunger: i8,
+    pub fitness: i8,
+    pub children: Vec<Pet>,
 }
 
 impl Pet {
@@ -12,5 +13,30 @@ impl Pet {
     }
     pub fn adopt_child(&mut self, child: Pet) {
         self.children.push(child);
+    }
+    pub fn status(&self) -> String {
+        format!(
+            "Age: {} Hunger: {} Fitness: {}",
+            self.age, self.hunger, self.fitness
+        )
+    }
+    pub fn feed(&mut self) {
+        if self.hunger - 3 < 0 {
+            self.hunger = 0;
+        } else {
+            self.hunger -= 3
+        }
+    }
+    pub fn walk(&mut self) {
+        if self.fitness + 3 > 10 {
+            self.fitness = 10
+        } else {
+            self.fitness += 3
+        }
+    }
+    pub fn grow_up(&mut self) {
+        self.age += 1;
+        self.hunger += 3;
+        self.fitness -= 3;
     }
 }
