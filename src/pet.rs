@@ -3,7 +3,7 @@ pub struct Pet {
     age: i8,
     hunger: i8,
     fitness: i8,
-    children: Vec<Pet>
+    children: Vec<Pet>,
 }
 
 impl Pet {
