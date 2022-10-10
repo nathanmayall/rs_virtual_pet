@@ -12,8 +12,9 @@ use terminal_size::{terminal_size, Height, Width};
 
 fn main() {
     clear_screen();
-
-    println!("Welcome to Virtual Pet Simulator. 👋🏼");
+    title_sequence("Virtuapet", None);
+    thread::sleep(time::Duration::from_millis(1500));
+    println!("Welcome to Virtual Pet Simulator.\u{1F44B}");
 
     let mut player_name = String::new();
 
@@ -45,9 +46,7 @@ fn main() {
 
     println!("Aww. {} is a nice name.", main_pet.name);
     println!("Let's get started.");
-    thread::sleep(time::Duration::from_millis(1500));
 
-    title_sequence("Virtuapet", None);
     thread::sleep(time::Duration::from_millis(1500));
     clear_screen();
 
@@ -83,18 +82,14 @@ fn main() {
                 )
             }
             _ => {
-                println!("Goodbye! 👋🏼");
+                println!("Goodbye!\u{1F44B}");
                 exit(0);
             }
         }
     }
     title_sequence("RIP", Some(true));
-    println!(
-        "{} died! Sorry {}. Stats are {}",
-        main_pet.name,
-        player_name,
-        main_pet.status()
-    )
+    println!("\u{1FAA6}  {} died! Sorry {} \u{1FAA6}", main_pet.name, player_name,);
+    println!("{} {}", "Stats are".red(), main_pet.status().red())
 }
 
 pub fn question_prompt(question: String) -> String {
@@ -115,8 +110,14 @@ pub fn title_sequence(title: &str, red: Option<bool>) {
     match size {
         Some((Width(_w), Height(_h))) => {
             let mut acc = String::new();
-            let epic_font = FIGfont::from_file("resources/epic.flf").unwrap();
+            
+            let mut font_value = "resources/epic.flf";
 
+            if red.is_some() {
+                font_value = "resources/poison.flf"
+            }
+
+            let epic_font = FIGfont::from_file(font_value).unwrap();
             title.chars().into_iter().for_each(|c| {
                 clear_screen();
                 acc.push(c);
