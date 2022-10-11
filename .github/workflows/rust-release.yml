@@ -25,5 +25,5 @@ jobs:
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ virtual_pet }}
-          path: target/release/${{ virtual_pet }}
+          name: virtual_pet${{ github.ref_name }}
+          path: target/release/virtual_pet
