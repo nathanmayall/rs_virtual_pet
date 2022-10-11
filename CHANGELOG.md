@@ -1,0 +1,6 @@
+- Create rust-release.yml
+- add rip screen
+- animate title screen
+- add main game loop and tweak title screens
+- add title and names
+- add pet struct and question prompt fn
