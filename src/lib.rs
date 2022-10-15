@@ -30,8 +30,7 @@ fn car_cdr(s: &str) -> (&str, &str) {
 pub fn print_choices(choices: &[String]) {
     choices.iter().for_each(|choice| {
         let (first_char, remainder) = car_cdr(choice);
-        print!("{}", format!("{}", first_char).bold());
-        println!("{}", remainder);
+        println!("{}{}", format!("{}", first_char).bold(), remainder);
     });
 }
 

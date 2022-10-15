@@ -1,3 +1,5 @@
+#![windows_subsystem = "console"]
+
 use virtual_pet;
 use std::process::exit;
 use std::{thread, time};
