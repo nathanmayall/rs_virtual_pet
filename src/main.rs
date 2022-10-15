@@ -6,7 +6,7 @@ use colored::*;
 
 fn main() {
     virtual_pet::clear_screen();
-    virtual_pet::title_sequence("Virtuapet", None);
+    virtual_pet::title_sequence(" Virtuapet ", None);
     thread::sleep(time::Duration::from_millis(1500));
     println!("Welcome to Virtual Pet Simulator.\u{1F44B}");
 
@@ -75,7 +75,7 @@ fn main() {
             }
         }
     }
-    virtual_pet::title_sequence("RIP", Some(true));
+    virtual_pet::title_sequence(" RIP", Some(true));
     println!(
         "\u{1FAA6}  {} died! Sorry {} \u{1FAA6}",
         main_pet.name, player_name,

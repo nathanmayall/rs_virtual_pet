@@ -95,13 +95,13 @@ pub fn title_sequence(title: &str, colour: Option<bool>) {
         Some((Width(_w), Height(_h))) => {
             let mut acc = String::new();
 
-            let mut font_value = "resources/epic.flf";
+            let mut font_value = include_str!("../resources/epic.flf");
 
             if colour.is_some() {
-                font_value = "resources/poison.flf"
+                font_value = include_str!("../resources/poison.flf");
             }
 
-            let epic_font = FIGfont::from_file(font_value).unwrap();
+            let epic_font = FIGfont::from_content(font_value).unwrap();
             title.chars().into_iter().for_each(|c| {
                 clear_screen();
                 acc.push(c);
