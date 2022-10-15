@@ -9,3 +9,9 @@ edition = "2021"
 terminal_size = "0.2.1"
 figlet-rs = "0.1.4"
 colored = "2.0.0"
+
+[profile.release]
+strip = true
+opt-level = "s"
+lto = true
+codegen-units = 1

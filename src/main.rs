@@ -1,40 +1,28 @@
-mod pet;
-
-use crate::pet::Pet;
-
-use std::io::{stdin, stdout, Write};
+use virtual_pet;
 use std::process::exit;
 use std::{thread, time};
 
 use colored::*;
-use figlet_rs::FIGfont;
-use terminal_size::{terminal_size, Height, Width};
 
 fn main() {
-    clear_screen();
-    title_sequence("Virtuapet", None);
+    virtual_pet::clear_screen();
+    virtual_pet::title_sequence("Virtuapet", None);
     thread::sleep(time::Duration::from_millis(1500));
     println!("Welcome to Virtual Pet Simulator.\u{1F44B}");
 
     let mut player_name = String::new();
 
     while player_name.len() < 1 {
-        player_name = question_prompt("What's your name?".to_string());
+        player_name = virtual_pet::question_prompt("What's your name?".to_string());
     }
     println!("Hello {}!", player_name);
 
     let mut pet_name = String::new();
     while pet_name.len() < 1 {
-        pet_name = question_prompt("What's the name of your pet?".to_string());
+        pet_name = virtual_pet::question_prompt("What's the name of your pet?".to_string());
     }
 
-    let mut main_pet = Pet {
-        name: pet_name,
-        age: 0,
-        hunger: 0,
-        fitness: 10,
-        children: Vec::new(),
-    };
+    let mut main_pet = virtual_pet::Pet::new(pet_name);
 
     let choices = [
         "Feed".to_owned(),
@@ -48,16 +36,16 @@ fn main() {
     println!("Let's get started.");
 
     thread::sleep(time::Duration::from_millis(1500));
-    clear_screen();
+    virtual_pet::clear_screen();
 
     let mut status = format!("Pet {} created.", main_pet.name);
 
     while main_pet.is_alive() {
         thread::sleep(time::Duration::from_millis(500));
-        clear_screen();
+        virtual_pet::clear_screen();
         println!("{}", status);
-        choices.iter().for_each(|choice| println!("{}", choice));
-        let response = question_prompt(format!("{} says what's your action?", main_pet.name));
+        virtual_pet::print_choices(&choices);
+        let response = virtual_pet::question_prompt(format!("{} says what's your action?", main_pet.name));
         match response.to_lowercase().trim().chars().nth(0).unwrap() {
             'f' => {
                 main_pet.feed();
@@ -87,56 +75,10 @@ fn main() {
             }
         }
     }
-    title_sequence("RIP", Some(true));
-    println!("\u{1FAA6}  {} died! Sorry {} \u{1FAA6}", main_pet.name, player_name,);
+    virtual_pet::title_sequence("RIP", Some(true));
+    println!(
+        "\u{1FAA6}  {} died! Sorry {} \u{1FAA6}",
+        main_pet.name, player_name,
+    );
     println!("{} {}", "Stats are".red(), main_pet.status().red())
-}
-
-pub fn question_prompt(question: String) -> String {
-    let mut input_string = String::new();
-    print!("{} ", question);
-    stdout().flush().unwrap();
-    let result = stdin().read_line(&mut input_string);
-
-    match result {
-        Ok(_) => String::from(input_string.trim()),
-        Err(error) => panic!("Something went really wrong. {:?}", error),
-    }
-}
-
-pub fn title_sequence(title: &str, red: Option<bool>) {
-    let size = terminal_size();
-
-    match size {
-        Some((Width(_w), Height(_h))) => {
-            let mut acc = String::new();
-            
-            let mut font_value = "resources/epic.flf";
-
-            if red.is_some() {
-                font_value = "resources/poison.flf"
-            }
-
-            let epic_font = FIGfont::from_file(font_value).unwrap();
-            title.chars().into_iter().for_each(|c| {
-                clear_screen();
-                acc.push(c);
-
-                let figure = epic_font.convert(acc.as_str());
-                let mut text = format!("{}", figure.unwrap());
-
-                match red {
-                    Some(_val) => text = format!("{}", text.red().on_black().bold()),
-                    None => text = format!("{}", text.blue().bold()),
-                }
-                println!("{}", text);
-                thread::sleep(time::Duration::from_millis(100));
-            });
-        }
-        None => panic!("Unable to get terminal size"),
-    }
-}
-
-fn clear_screen() {
-    print!("\x1B[2J\x1B[1;1H");
 }
