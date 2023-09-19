@@ -6,9 +6,9 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-terminal_size = "0.2.1"
-figlet-rs = "0.1.4"
-colored = "2.0.0"
+terminal_size = "0.3.0"
+figlet-rs = "0.1.5"
+colored = "2.0.4"
 
 [profile.release]
 strip = true
