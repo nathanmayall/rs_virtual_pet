@@ -7,7 +7,7 @@ edition = "2021"
 
 [dependencies]
 terminal_size = "0.3.0"
-figlet-rs = "0.1.5"
+figlet-rs = "1.0.0"
 colored = "3.0.0"
 
 [profile.release]
